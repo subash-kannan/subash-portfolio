@@ -1,3 +1,8 @@
+import heroDevPortrait from '../assets/images/hero_dev_portrait_1792041142065.jpg';
+import projectAiPlatform from '../assets/images/project_ai_platform_1792041141720.jpg';
+import projectCloudStream from '../assets/images/project_cloud_stream_1792041141576.jpg';
+import projectDesignSystem from '../assets/images/project_design_system_1792041143111.jpg';
+
 export interface Project {
   id: string;
   title: string;
@@ -65,7 +70,7 @@ export const PORTFOLIO_DATA = {
     linkedin: 'https://linkedin.com/in/subash-kannan',
     linkedinHandle: 'linkedin.com/in/subash-kannan',
     location: 'Coimbatore, Tamil Nadu, India',
-    heroImage: '/src/assets/images/hero_dev_portrait_1792041142065.jpg',
+    heroImage: heroDevPortrait,
   },
 
   keyStats: [
@@ -97,7 +102,7 @@ export const PORTFOLIO_DATA = {
         'Applied structured prompt optimization and retrieval-augmented context grounding to elevate response accuracy and zero hallucination.',
       ],
       techStack: ['React.js', 'Google ADK', 'GPT-5.2 mini / 5.4', 'Grok', 'RAG', 'TypeScript', 'LLM Prompt Engineering'],
-      image: '/src/assets/images/project_ai_platform_1792041141720.jpg',
+      image: projectAiPlatform,
       featured: true,
       year: '2024 – 2026',
     },
@@ -121,7 +126,7 @@ export const PORTFOLIO_DATA = {
         'Engineered reliable Salesforce synchronization endpoints maintaining consistency across billing and CRM states.',
       ],
       techStack: ['React.js', 'Java (Spring Boot)', 'MongoDB', 'Salesforce API', 'RESTful Services', 'Figma'],
-      image: '/src/assets/images/project_cloud_stream_1792041141576.jpg',
+      image: projectCloudStream,
       featured: true,
       year: '2024',
     },
@@ -145,7 +150,7 @@ export const PORTFOLIO_DATA = {
         'Collaborated closely with design teams in Figma to ensure frictionless UX for enterprise support specialists.',
       ],
       techStack: ['React.js', 'Java', 'MongoDB', 'REST APIs', 'Mongo Compass', 'Jira'],
-      image: '/src/assets/images/project_design_system_1792041143111.jpg',
+      image: projectDesignSystem,
       featured: true,
       year: '2023 – 2024',
     },
@@ -169,7 +174,7 @@ export const PORTFOLIO_DATA = {
         'Recognized across the organization for fostering innovation and accelerating feature release cycles.',
       ],
       techStack: ['Cursor', 'Codex', 'ChatGPT', 'Prompt Engineering', 'VS Code', 'Agile / Jira'],
-      image: '/src/assets/images/project_ai_platform_1792041141720.jpg',
+      image: projectAiPlatform,
       featured: false,
       year: '2024 – 2026',
     },
