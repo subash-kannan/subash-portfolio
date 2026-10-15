@@ -94,16 +94,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onOpenResume }) => {
             </div>
           </div>
 
-          {/* Right Column: High-Fidelity Editorial Visual Container */}
+          {/* Right Column: Visual Container (Simple Rounded Corners DP) */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl">
+            <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-xl group">
               {!imageError ? (
                 <img
                   src={PORTFOLIO_DATA.profile.heroImage}
                   alt="Subash Kannan - Full Stack & Agentic AI Engineer"
                   referrerPolicy="no-referrer"
                   onError={() => setImageError(true)}
-                  className="w-full h-full object-cover object-center filter grayscale-[10%] contrast-105 hover:scale-102 transition-transform duration-500"
+                  className="w-full h-full object-cover object-center rounded-2xl hover:scale-102 transition-transform duration-500"
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-zinc-900 text-center">
@@ -113,12 +113,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onOpenResume }) => {
                 </div>
               )}
 
-              {/* Measured contrast gradient scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-transparent to-transparent pointer-events-none" />
-
-              {/* Bottom card details */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-zinc-300">
-                <span className="font-semibold tracking-wide">Subash Kannan</span>
+              {/* Bottom tag bar */}
+              <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 rounded-lg bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/80 flex items-center justify-between text-xs text-zinc-300">
+                <span className="font-semibold tracking-wide text-white">Subash Kannan</span>
                 <span className="text-zinc-400 font-mono text-[11px]">{PORTFOLIO_DATA.profile.location}</span>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import heroDevPortrait from '../assets/images/hero_dev_portrait_1792041142065.jpg';
+import heroDevPortrait from '../assets/images/subash_kannan_profile_1792049190457.jpg';
 import projectAiPlatform from '../assets/images/project_ai_platform_1792041141720.jpg';
 import projectCloudStream from '../assets/images/project_cloud_stream_1792041141576.jpg';
 import projectDesignSystem from '../assets/images/project_design_system_1792041143111.jpg';
