@@ -9,13 +9,1544 @@
     <meta property="og:description" content="Portfolio of Subash Kannan, Full Stack Engineer specializing in Agentic AI, React, Java, and MongoDB at Responsive." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN for instant, zero-build static hosting -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+              display: ['"Outfit"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              zinc: {
+                850: '#1e1e24',
+                900: '#18181b',
+                950: '#09090b',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: 'Outfit', sans-serif;
+      }
+      code, pre, .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Custom clean scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(161, 161, 170, 0.2);
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(161, 161, 170, 0.4);
+      }
+    </style>
   </head>
-  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white min-h-screen flex flex-col">
+
+    <!-- TOP BAR NAVIGATION (Strict 3-zone contract) -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-200 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/80 py-3.5 shadow-sm shadow-black/20">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between gap-8">
+        <!-- Zone 1: Wordmark -->
+        <a href="#" class="text-lg font-semibold tracking-tight text-zinc-100 hover:text-white transition-colors whitespace-nowrap shrink-0 flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm bg-zinc-100 inline-block"></span>
+          <span>Subash Kannan</span>
+        </a>
+
+        <!-- Zone 2: Navigation Links -->
+        <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-400">
+          <a href="#work" class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0">Work</a>
+          <a href="#experience" class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0">Experience</a>
+          <a href="#philosophy" class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0">Philosophy</a>
+          <a href="#skills" class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0">Skills</a>
+          <a href="#lab" class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0">Agentic Lab</a>
+        </nav>
+
+        <!-- Zone 3: Actions -->
+        <div class="hidden sm:flex items-center gap-3 shrink-0">
+          <button onclick="openResumeModal()" class="px-3.5 py-1.5 text-xs font-medium text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-lg transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Resume</span>
+          </button>
+          <button onclick="openContactDrawer()" class="px-4 py-1.5 text-xs font-medium text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 shadow-sm font-semibold">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            <span>Get in Touch</span>
+          </button>
+        </div>
+
+        <!-- Mobile menu toggle button -->
+        <div class="flex md:hidden items-center">
+          <button onclick="toggleMobileMenu()" class="p-2 text-zinc-400 hover:text-white rounded-lg border border-zinc-800" aria-label="Toggle navigation menu">
+            <svg id="menuIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown -->
+      <div id="mobileMenu" class="hidden md:hidden bg-zinc-900 border-b border-zinc-800 px-6 py-5 mt-2 space-y-4">
+        <div class="flex flex-col space-y-3 text-sm font-medium text-zinc-300">
+          <a href="#work" onclick="toggleMobileMenu()" class="hover:text-white">Work</a>
+          <a href="#experience" onclick="toggleMobileMenu()" class="hover:text-white">Experience</a>
+          <a href="#philosophy" onclick="toggleMobileMenu()" class="hover:text-white">Philosophy</a>
+          <a href="#skills" onclick="toggleMobileMenu()" class="hover:text-white">Skills</a>
+          <a href="#lab" onclick="toggleMobileMenu()" class="hover:text-white">Agentic Lab</a>
+        </div>
+        <div class="pt-3 border-t border-zinc-800 flex gap-3">
+          <button onclick="toggleMobileMenu(); openResumeModal()" class="flex-1 py-2 text-xs font-medium text-zinc-300 border border-zinc-800 rounded-lg text-center flex items-center justify-center gap-1.5">
+            <span>Resume</span>
+          </button>
+          <button onclick="toggleMobileMenu(); openContactDrawer()" class="flex-1 py-2 text-xs font-semibold text-zinc-950 bg-zinc-100 rounded-lg text-center flex items-center justify-center gap-1.5">
+            <span>Get in Touch</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1">
+
+      <!-- SPLIT HERO SECTION -->
+      <section class="relative pt-32 pb-16 md:pt-40 md:pb-24 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            <!-- Left Column: Typography Hierarchy -->
+            <div class="lg:col-span-7 space-y-6">
+              <!-- Quiet Unboxed Text Kicker -->
+              <div class="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-400 tracking-wide uppercase">
+                <span>Full Stack Engineer</span>
+                <span aria-hidden="true" class="text-zinc-600">·</span>
+                <span>Agentic AI Systems</span>
+                <span aria-hidden="true" class="text-zinc-600">·</span>
+                <span>React · Java · MongoDB</span>
+              </div>
+
+              <!-- Headline -->
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] [text-wrap:balance]">
+                Building scalable web applications & multi-agent AI platforms.
+              </h1>
+
+              <!-- Lead Copy -->
+              <p class="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl">
+                I am <strong class="font-semibold text-zinc-200">Subash Kannan</strong>, a Full Stack Developer with 3 years of experience at <span class="text-zinc-200 font-medium">Responsive</span> building enterprise platforms and Agentic AI systems with <span class="text-zinc-200 font-medium">Google ADK</span>, dynamic tool invocation, and intelligent workflow automation across <span class="text-zinc-200 font-medium">React.js, Java (Spring Boot), and MongoDB</span>.
+              </p>
+
+              <!-- Actions -->
+              <div class="pt-2 flex flex-wrap items-center gap-4">
+                <button onclick="openResumeModal()" class="px-5 py-2.5 text-sm font-semibold text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg transition-all shadow-sm flex items-center gap-2">
+                  <span>View Complete Resume</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </button>
+
+                <a href="#work" class="px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-lg transition-colors">
+                  Explore Projects
+                </a>
+
+                <div class="flex items-center gap-2 pl-2 border-l border-zinc-800">
+                  <a href="https://linkedin.com/in/subash-kannan" target="_blank" rel="noreferrer" class="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-zinc-900" title="LinkedIn Profile">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                  </a>
+                  <button onclick="openContactDrawer()" class="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-zinc-900" title="Direct Email">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                  </button>
+                  <a href="tel:+917539943786" class="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-zinc-900" title="Direct Phone">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Spot Award Highlight -->
+              <div class="pt-3 text-xs text-zinc-400 flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span class="text-zinc-300 font-medium flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-amber-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                  Spot Award Winner:
+                </span>
+                <span>Agent Studio at Responsive</span>
+                <span aria-hidden="true" class="text-zinc-600">·</span>
+                <span>Invited Hackathon Judge</span>
+                <span aria-hidden="true" class="text-zinc-600">·</span>
+                <span>AI Productivity KT Lead</span>
+              </div>
+            </div>
+
+            <!-- Right Column: Visual Container -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="relative w-full max-w-md aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-2xl">
+                <img 
+                  src="./images/hero_dev_portrait.jpg" 
+                  alt="Subash Kannan - Full Stack & Agentic AI Engineer"
+                  onerror="this.onerror=null; this.src='./src/assets/images/hero_dev_portrait_1792041142065.jpg';"
+                  class="w-full h-full object-cover object-center filter grayscale-[10%] contrast-105 hover:scale-102 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-zinc-300">
+                  <span class="font-semibold tracking-wide">Subash Kannan</span>
+                  <span class="text-zinc-400 font-mono text-[11px]">Coimbatore, India</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Proof Strip (Full width row below split) -->
+          <div class="mt-16 pt-8 border-t border-zinc-800/80 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div class="space-y-1">
+              <div class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">3 Years</div>
+              <div class="text-xs sm:text-sm font-medium text-zinc-300">Production Experience</div>
+              <div class="text-xs text-zinc-500">At Responsive (Jul 2023 – Present)</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">9.02 CGPA</div>
+              <div class="text-xs sm:text-sm font-medium text-zinc-300">Academic Standing</div>
+              <div class="text-xs text-zinc-500">B.E Computer Science & Engineering</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">~120%</div>
+              <div class="text-xs sm:text-sm font-medium text-zinc-300">Engineering Velocity</div>
+              <div class="text-xs text-zinc-500">Team productivity boost via AI tools</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono tabular-nums">Spot Award</div>
+              <div class="text-xs sm:text-sm font-medium text-zinc-300">Key Recognition</div>
+              <div class="text-xs text-zinc-500">Agent Studio outstanding contribution</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SELECTED WORKS / PROJECTS BENTO GRID -->
+      <section id="work" class="py-20 md:py-28 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div class="space-y-2">
+              <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Featured Projects at Responsive</div>
+              <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Agentic AI systems, enterprise portals & revenue modules.</h2>
+              <p className="text-zinc-400 text-sm max-w-xl">Production systems engineered using React.js, Java (Spring Boot), MongoDB, and Google ADK dynamic multi-agent architectures.</p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex items-center gap-1 p-1 bg-zinc-900 border border-zinc-800 rounded-xl overflow-x-auto shrink-0" id="projectFilterBar">
+              <button onclick="filterProjects('all')" class="project-filter-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 text-zinc-950 transition-colors whitespace-nowrap shrink-0" data-category="all">All Projects</button>
+              <button onclick="filterProjects('agentic-ai')" class="project-filter-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-category="agentic-ai">Agentic AI & Google ADK</button>
+              <button onclick="filterProjects('revenue')" class="project-filter-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-category="revenue">Pricing & Salesforce</button>
+              <button onclick="filterProjects('fullstack')" class="project-filter-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-category="fullstack">Support & Management</button>
+              <button onclick="filterProjects('productivity')" class="project-filter-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-category="productivity">AI Dev Productivity</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Bento Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6" id="projectsGrid">
+            
+            <!-- Project 1: Agentic AI Platform (Wide Card) -->
+            <div class="project-card lg:col-span-8 group relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer shadow-lg hover:shadow-black/50" data-cat="agentic-ai" onclick="openProjectModal('agentic-ai')">
+              <div class="relative w-full overflow-hidden bg-zinc-950 aspect-[16/9]">
+                <img src="./images/project_ai_platform.jpg" onerror="this.onerror=null; this.src='./src/assets/images/project_ai_platform_1792041141720.jpg';" alt="Agentic AI Platform" class="w-full h-full object-cover object-top filter contrast-[102%] group-hover:scale-103 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent pointer-events-none"></div>
+                <div class="absolute top-4 right-4 p-2 rounded-lg bg-zinc-950/70 border border-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-950 transition-colors">
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-xs text-zinc-400">
+                    <span>Agentic AI & LLMs</span>
+                    <span aria-hidden="true">·</span>
+                    <span>2024 – 2026</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-white group-hover:text-zinc-100 transition-colors">Agentic AI Platform (Multi-Agent System)</h3>
+                  <p class="text-xs text-zinc-400">Dynamic Multi-Agent System & Google ADK Tool Orchestration</p>
+                  <p class="text-sm text-zinc-300 line-clamp-2 leading-relaxed mt-2">Advanced Agentic AI platform built at Responsive enabling enterprise users to create custom agents, trigger intelligent automated workflows, and interact via an intuitive ChatGPT-like interface.</p>
+                </div>
+                <div class="pt-3 border-t border-zinc-800/80 grid grid-cols-3 gap-2">
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Google ADK</div>
+                    <div class="text-[11px] text-zinc-500">Multi-Agent</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">GPT & Grok</div>
+                    <div class="text-[11px] text-zinc-500">LLM Engines</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Spot Award</div>
+                    <div class="text-[11px] text-zinc-500">Recognition</div>
+                  </div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Google ADK</span><span class="text-zinc-600">·</span>
+                  <span>GPT Models</span><span class="text-zinc-600">·</span>
+                  <span>Grok</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2: Pricing & Packaging System -->
+            <div class="project-card lg:col-span-4 group relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer shadow-lg hover:shadow-black/50" data-cat="revenue" onclick="openProjectModal('pricing-packaging')">
+              <div class="relative w-full overflow-hidden bg-zinc-950 aspect-[4/3]">
+                <img src="./images/project_cloud_stream.jpg" onerror="this.onerror=null; this.src='./src/assets/images/project_cloud_stream_1792041141576.jpg';" alt="Pricing & Packaging System" class="w-full h-full object-cover object-top filter contrast-[102%] group-hover:scale-103 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent pointer-events-none"></div>
+                <div class="absolute top-4 right-4 p-2 rounded-lg bg-zinc-950/70 border border-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-950 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-xs text-zinc-400">
+                    <span>Full Stack & Revenue</span>
+                    <span aria-hidden="true">·</span>
+                    <span>2024</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-white group-hover:text-zinc-100 transition-colors">Pricing & Packaging System</h3>
+                  <p class="text-xs text-zinc-400">Business-Critical Revenue Engine & Salesforce</p>
+                  <p class="text-sm text-zinc-300 line-clamp-2 leading-relaxed mt-2">Business-critical pricing, subscription packaging, and customer onboarding system directly impacting Responsive revenue generation and enterprise checkout flows.</p>
+                </div>
+                <div class="pt-3 border-t border-zinc-800/80 grid grid-cols-3 gap-2">
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Revenue Core</div>
+                    <div class="text-[11px] text-zinc-500">Impact</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Full Stack</div>
+                    <div class="text-[11px] text-zinc-500">Architecture</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Salesforce</div>
+                    <div class="text-[11px] text-zinc-500">Integration</div>
+                  </div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Java</span><span class="text-zinc-600">·</span>
+                  <span>MongoDB</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 3: Support Portal CMS -->
+            <div class="project-card lg:col-span-4 group relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer shadow-lg hover:shadow-black/50" data-cat="fullstack" onclick="openProjectModal('support-portal')">
+              <div class="relative w-full overflow-hidden bg-zinc-950 aspect-[4/3]">
+                <img src="./images/project_design_system.jpg" onerror="this.onerror=null; this.src='./src/assets/images/project_design_system_1792041143111.jpg';" alt="Support Portal CMS" class="w-full h-full object-cover object-top filter contrast-[102%] group-hover:scale-103 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent pointer-events-none"></div>
+                <div class="absolute top-4 right-4 p-2 rounded-lg bg-zinc-950/70 border border-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-950 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-xs text-zinc-400">
+                    <span>Full Stack Web Platform</span>
+                    <span aria-hidden="true">·</span>
+                    <span>2023 – 2024</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-white group-hover:text-zinc-100 transition-colors">Customer Support Portal</h3>
+                  <p class="text-xs text-zinc-400">Enterprise Issue Tracking & Customer Management</p>
+                  <p class="text-sm text-zinc-300 line-clamp-2 leading-relaxed mt-2">End-to-end customer support portal designed to streamline enterprise customer data management, ticket escalation, and issue resolution tracking.</p>
+                </div>
+                <div class="pt-3 border-t border-zinc-800/80 grid grid-cols-3 gap-2">
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">React + Java</div>
+                    <div class="text-[11px] text-zinc-500">Stack</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">MongoDB</div>
+                    <div class="text-[11px] text-zinc-500">Database</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">REST API</div>
+                    <div class="text-[11px] text-zinc-500">Architecture</div>
+                  </div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Java (Spring)</span><span class="text-zinc-600">·</span>
+                  <span>MongoDB</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 4: AI Dev Productivity Suite (Wide Card) -->
+            <div class="project-card lg:col-span-8 group relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer shadow-lg hover:shadow-black/50" data-cat="productivity" onclick="openProjectModal('ai-productivity')">
+              <div class="relative w-full overflow-hidden bg-zinc-950 aspect-[16/9]">
+                <img src="./images/project_ai_platform.jpg" onerror="this.onerror=null; this.src='./src/assets/images/project_ai_platform_1792041141720.jpg';" alt="AI Developer Productivity Suite" class="w-full h-full object-cover object-top filter contrast-[102%] group-hover:scale-103 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent pointer-events-none"></div>
+                <div class="absolute top-4 right-4 p-2 rounded-lg bg-zinc-950/70 border border-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-950 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-xs text-zinc-400">
+                    <span>Engineering Leadership</span>
+                    <span aria-hidden="true">·</span>
+                    <span>2024 – 2026</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-white group-hover:text-zinc-100 transition-colors">AI-Assisted Developer Productivity Suite</h3>
+                  <p class="text-xs text-zinc-400">Organization-Wide AI Tooling Adoption & Knowledge Transfer</p>
+                  <p class="text-sm text-zinc-300 line-clamp-2 leading-relaxed mt-2">Spearheaded team-wide adoption of cutting-edge AI coding tools (Cursor, Codex, ChatGPT), driving an estimated ~120% increase in developer delivery speed across squads.</p>
+                </div>
+                <div class="pt-3 border-t border-zinc-800/80 grid grid-cols-3 gap-2">
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">~120%</div>
+                    <div class="text-[11px] text-zinc-500">Velocity Gain</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">Cursor & Codex</div>
+                    <div class="text-[11px] text-zinc-500">Tooling</div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white font-mono">KT Speaker</div>
+                    <div class="text-[11px] text-zinc-500">Role</div>
+                  </div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span>Cursor</span><span class="text-zinc-600">·</span>
+                  <span>Codex</span><span class="text-zinc-600">·</span>
+                  <span>Prompting</span><span class="text-zinc-600">·</span>
+                  <span>Agile</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- INTERACTIVE GOOGLE ADK MULTI-AGENT SANDBOX -->
+      <section id="lab" class="py-20 md:py-28 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div class="space-y-2">
+              <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Interactive Architecture Sandbox</div>
+              <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Google ADK Multi-Agent Orchestrator Simulator.</h2>
+              <p class="text-zinc-400 text-sm max-w-xl">An interactive demonstration of Subash's Spot-Award-winning multi-agent system at Responsive: dynamic tool selection, model routing, and fallback clarification mechanisms.</p>
+            </div>
+            <div class="p-3 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-300 font-mono flex items-center gap-2">
+              <span>Agent Studio Architecture (Live Demo)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 sm:p-8">
+            <!-- Controls Column -->
+            <div class="lg:col-span-5 space-y-6">
+              <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+                <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Query & Model Parameters</span>
+                <button onclick="resetSimulator()" class="text-xs text-zinc-400 hover:text-white flex items-center gap-1">Reset</button>
+              </div>
+
+              <!-- Scenario buttons -->
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-300">Select Incoming Enterprise Query</label>
+                <div class="space-y-1.5" id="scenarioList">
+                  <button onclick="selectScenario('summarize')" class="scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-800 border-zinc-600 text-white font-medium" data-id="summarize">
+                    <span class="truncate pr-2">File Summarization</span>
+                    <span class="text-[11px] font-mono text-zinc-400 shrink-0">Direct Tool</span>
+                  </button>
+                  <button onclick="selectScenario('salesforce')" class="scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-950/80 border-zinc-850 text-zinc-400 hover:text-zinc-200" data-id="salesforce">
+                    <span class="truncate pr-2">Pricing & Salesforce Tool</span>
+                    <span class="text-[11px] font-mono text-zinc-500 shrink-0">Direct Tool</span>
+                  </button>
+                  <button onclick="selectScenario('ambiguous')" class="scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-950/80 border-zinc-850 text-zinc-400 hover:text-zinc-200" data-id="ambiguous">
+                    <span class="truncate pr-2">Ambiguous Query (Fallback)</span>
+                    <span class="text-[11px] font-mono text-zinc-400 shrink-0">Fallback Test</span>
+                  </button>
+                  <button onclick="selectScenario('automation')" class="scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-950/80 border-zinc-850 text-zinc-400 hover:text-zinc-200" data-id="automation">
+                    <span class="truncate pr-2">Multi-Step Task Automation</span>
+                    <span class="text-[11px] font-mono text-zinc-500 shrink-0">Direct Tool</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Model Selector -->
+              <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-300">LLM Validation Family</label>
+                <div class="grid grid-cols-3 gap-2" id="modelSelector">
+                  <button onclick="selectModel('gpt54')" class="model-btn py-2 px-2 text-xs font-semibold rounded-lg border bg-zinc-100 text-zinc-950 border-zinc-100" data-id="gpt54">GPT-5.4</button>
+                  <button onclick="selectModel('grok')" class="model-btn py-2 px-2 text-xs font-medium rounded-lg border bg-zinc-950 text-zinc-400 border-zinc-800" data-id="grok">Grok</button>
+                  <button onclick="selectModel('gpt52mini')" class="model-btn py-2 px-2 text-xs font-medium rounded-lg border bg-zinc-950 text-zinc-400 border-zinc-800" data-id="gpt52mini">GPT-5.2 mini</button>
+                </div>
+              </div>
+
+              <!-- Confidence Slider -->
+              <div class="space-y-2">
+                <div class="flex justify-between text-xs">
+                  <span class="text-zinc-300 font-medium">Tool Invocation Confidence Threshold</span>
+                  <span class="font-mono text-zinc-100 tabular-nums" id="thresholdValue">80%</span>
+                </div>
+                <input type="range" min="50" max="95" step="5" value="80" oninput="updateConfidence(this.value)" class="w-full accent-zinc-100 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                <div class="flex justify-between text-[11px] text-zinc-500">
+                  <span>50% (Permissive)</span>
+                  <span>80% (Recommended)</span>
+                  <span>95% (Strict Fallback)</span>
+                </div>
+              </div>
+
+              <!-- Prompt Optimization Toggle -->
+              <div class="pt-2 flex items-center justify-between p-3 rounded-xl bg-zinc-950 border border-zinc-850">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-medium text-zinc-200">PROMPT Optimization Active</div>
+                  <div class="text-[11px] text-zinc-500">Refines context window & reduces hallucination</div>
+                </div>
+                <button type="button" onclick="togglePromptOpt()" id="promptOptBtn" class="w-11 h-6 rounded-full transition-colors relative bg-zinc-100">
+                  <div id="promptOptKnob" class="w-4 h-4 rounded-full transition-transform bg-zinc-950 translate-x-6"></div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Results & Flow Column -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-xl bg-zinc-950 border border-zinc-800">
+                <div class="space-y-1">
+                  <div class="text-xs text-zinc-400">Agent Latency</div>
+                  <div class="text-2xl font-bold font-mono text-white tabular-nums" id="simLatency">215 <span class="text-xs font-normal text-zinc-500">ms</span></div>
+                  <div class="text-[11px] text-zinc-500">End-to-end routing</div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-xs text-zinc-400">Confidence</div>
+                  <div class="text-2xl font-bold font-mono text-white tabular-nums" id="simConfidence">99%</div>
+                  <div class="text-[11px] text-zinc-500">Google ADK intent</div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-xs text-zinc-400">Decision Mode</div>
+                  <div class="text-base font-bold text-white truncate pt-1" id="simDecision">Direct Tool</div>
+                  <div class="text-[11px] text-zinc-500" id="simDecisionDetail">Automated action</div>
+                </div>
+                <div class="space-y-1">
+                  <div class="text-xs text-zinc-400">Token Gain</div>
+                  <div class="text-2xl font-bold font-mono text-white tabular-nums" id="simTokens">+38%</div>
+                  <div class="text-[11px] text-zinc-500">Via prompt tuning</div>
+                </div>
+              </div>
+
+              <div class="p-5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-4">
+                <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center justify-between">
+                  <span>Google ADK Multi-Agent Execution Trace</span>
+                  <span class="font-mono text-zinc-400 text-[11px]">State: Resolved</span>
+                </div>
+
+                <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800 text-xs space-y-1">
+                  <div class="text-zinc-500 font-mono text-[11px]">Input Prompt:</div>
+                  <div class="text-zinc-200 italic" id="simPrompt">"Summarize the 45-page SOC2 compliance RFP PDF and extract high-risk clauses."</div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800 space-y-1.5">
+                    <div class="text-zinc-400 font-mono text-[11px]">Step 1: ADK Router</div>
+                    <div class="font-semibold text-white">Intent Classification</div>
+                    <div class="text-[11px] text-zinc-400" id="step1Score">Score: 99%</div>
+                  </div>
+                  <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800 space-y-1.5">
+                    <div class="text-zinc-400 font-mono text-[11px]">Step 2: Invocation</div>
+                    <div class="font-semibold text-white truncate" id="step2Agent">File Summarization Specialist</div>
+                    <div class="text-[11px] text-zinc-400 truncate" id="step2Tool">Document Parser & Reranker</div>
+                  </div>
+                  <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800 space-y-1.5">
+                    <div class="text-zinc-400 font-mono text-[11px]">Step 3: Output</div>
+                    <div class="font-semibold text-white" id="step3Output">Contextual Response</div>
+                    <div class="text-[11px] text-zinc-400">Grounded & Verified</div>
+                  </div>
+                </div>
+
+                <!-- Fallback question alert box -->
+                <div id="fallbackNotice" class="hidden p-3 rounded-lg bg-zinc-900/90 border border-amber-900/60 text-xs space-y-1 text-amber-200">
+                  <div class="font-semibold text-amber-300">Fallback Clarification Prompt Triggered:</div>
+                  <p class="text-zinc-300" id="fallbackQuestion">"Which proposal would you like an update on: Acme Corp Q3 ($120k) or Globex SaaS ($85k)?"</p>
+                </div>
+              </div>
+
+              <div class="text-xs text-zinc-400 leading-relaxed bg-zinc-950/40 p-4 rounded-xl border border-zinc-800/60">
+                <strong class="text-zinc-200">Production Highlight from Responsive:</strong> Subash engineered this exact multi-agent architecture using Google ADK to dynamically evaluate intent, automate background tools, and query multiple LLM backends (GPT models and Grok), earning the <span class="text-white font-medium">Spot Award for Agent Studio</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE SECTION -->
+      <section id="experience" class="py-20 md:py-28 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
+          <div class="max-w-2xl space-y-2">
+            <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Work Experience & Track Record</div>
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">3 Years building enterprise web & Agentic AI platforms.</h2>
+            <p class="text-zinc-400 text-sm">Proven trajectory at Responsive spanning multi-agent architectures, customer support portals, revenue-impacting pricing flows, and organization-wide AI productivity adoption.</p>
+          </div>
+
+          <!-- Roles Progression Timeline -->
+          <div class="space-y-8">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+              <span>Responsive (Coimbatore, India) — Roles Progression</span>
+            </h3>
+
+            <div class="space-y-10">
+              <!-- Software Engineer -->
+              <div class="relative pl-0 md:pl-8 md:border-l md:border-zinc-800 space-y-4 group">
+                <div class="hidden md:block absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-zinc-400 group-hover:bg-zinc-200 transition-colors"></div>
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <div>
+                    <h4 class="text-lg font-bold text-white">Software Engineer</h4>
+                    <div class="text-xs text-zinc-400">Responsive · Coimbatore, India</div>
+                  </div>
+                  <div class="text-xs font-mono text-zinc-400">2026 – Present</div>
+                </div>
+                <p class="text-sm text-zinc-300 leading-relaxed max-w-4xl">Promoted to Software Engineer following consistent track record of technical innovation, multi-agent AI system architecture, and impactful full-stack delivery.</p>
+                <div class="space-y-2 max-w-4xl text-xs text-zinc-300">
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Architecting advanced multi-agent workflows and Google ADK integrations for next-generation enterprise capabilities.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Driving cross-functional technical initiatives uniting React frontend components with robust Java Spring Boot and MongoDB services.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Leading internal knowledge sessions on AI-assisted development (Cursor & Codex), maintaining ~120% engineering productivity gains.</span></div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span class="text-zinc-400">Key Technologies:</span>
+                  <span>Agentic AI</span><span class="text-zinc-600">·</span>
+                  <span>Google ADK</span><span class="text-zinc-600">·</span>
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Java</span><span class="text-zinc-600">·</span>
+                  <span>MongoDB</span><span class="text-zinc-600">·</span>
+                  <span>Cursor / Codex</span>
+                </div>
+              </div>
+
+              <!-- Associate Software Engineer -->
+              <div class="relative pl-0 md:pl-8 md:border-l md:border-zinc-800 space-y-4 group">
+                <div class="hidden md:block absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-zinc-600 group-hover:bg-zinc-200 transition-colors"></div>
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <div>
+                    <h4 class="text-lg font-bold text-white">Associate Software Engineer</h4>
+                    <div class="text-xs text-zinc-400">Responsive · Coimbatore, India</div>
+                  </div>
+                  <div class="text-xs font-mono text-zinc-400">July 2024 – July 2026</div>
+                </div>
+                <p class="text-sm text-zinc-300 leading-relaxed max-w-4xl">Key contributor to the flagship Agentic AI Platform, customer-facing Support Portal, and revenue-critical Pricing & Packaging systems.</p>
+                <div class="space-y-2 max-w-4xl text-xs text-zinc-300">
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Designed and implemented multi-agent architecture where Google ADK dynamically decides which agent/tool to invoke based on user queries.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Built intelligent workflows for file summarization, contextual responses, and automated task execution with follow-up clarification fallbacks.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Awarded the <strong>Spot Award – Agent Studio</strong> for outstanding technical contribution and proactive innovation.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Developed pricing and packaging features with Salesforce integration, directly powering enterprise customer onboarding and revenue generation.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Engineered reusable common UI components in React.js, reducing duplication across product modules.</span></div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span class="text-zinc-400">Key Technologies:</span>
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Java (Spring Boot)</span><span class="text-zinc-600">·</span>
+                  <span>MongoDB</span><span class="text-zinc-600">·</span>
+                  <span>Google ADK</span><span class="text-zinc-600">·</span>
+                  <span>GPT Models</span><span class="text-zinc-600">·</span>
+                  <span>Grok</span><span class="text-zinc-600">·</span>
+                  <span>Salesforce</span>
+                </div>
+              </div>
+
+              <!-- Intern -->
+              <div class="relative pl-0 md:pl-8 md:border-l md:border-zinc-800 space-y-4 group">
+                <div class="hidden md:block absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-zinc-600 group-hover:bg-zinc-200 transition-colors"></div>
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <div>
+                    <h4 class="text-lg font-bold text-white">Software Engineering Intern</h4>
+                    <div class="text-xs text-zinc-400">Responsive · Coimbatore, India</div>
+                  </div>
+                  <div class="text-xs font-mono text-zinc-400">July 2023 – July 2024</div>
+                </div>
+                <p class="text-sm text-zinc-300 leading-relaxed max-w-4xl">Full-time software engineering internship building full-stack modules for the Support Portal and mastering enterprise product development practices.</p>
+                <div class="space-y-2 max-w-4xl text-xs text-zinc-300">
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Developed end-to-end features for customer data management and issue tracking in the Support Portal.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Designed and integrated RESTful APIs linking the React interface with backend Java services and MongoDB.</span></div>
+                  <div class="flex items-start gap-2.5"><span class="text-zinc-500 font-mono mt-0.5">→</span><span>Participated actively in Agile sprints, code reviews via GitHub/SourceTree, and cross-team Figma design handoffs.</span></div>
+                </div>
+                <div class="pt-2 text-xs text-zinc-400 font-mono flex flex-wrap gap-x-2 gap-y-1">
+                  <span class="text-zinc-400">Key Technologies:</span>
+                  <span>React.js</span><span class="text-zinc-600">·</span>
+                  <span>Java</span><span class="text-zinc-600">·</span>
+                  <span>MongoDB</span><span class="text-zinc-600">·</span>
+                  <span>REST APIs</span><span class="text-zinc-600">·</span>
+                  <span>Postman</span><span class="text-zinc-600">·</span>
+                  <span>Git</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="pt-8 border-t border-zinc-800/80 space-y-6">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-300">Education & Academic Distinction</h3>
+            <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div class="space-y-2">
+                <div class="text-lg font-bold text-white">Sri Shakthi Institute of Engineering and Technology</div>
+                <div class="text-sm text-zinc-300 font-medium">Bachelor's Degree (B.E) in Computer Science & Engineering</div>
+                <div class="text-xs text-zinc-400 font-mono">Coimbatore, Tamil Nadu · July 2020 – May 2024</div>
+              </div>
+              <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-center shrink-0">
+                <div class="text-3xl font-bold font-mono text-white tabular-nums">9.02</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Cumulative GPA (Out of 10)</div>
+                <div class="text-[11px] text-zinc-400 font-medium mt-1">First Class with Distinction</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Honors & Awards -->
+          <div class="pt-8 border-t border-zinc-800/80 space-y-6">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-300">Honors & Key Achievements</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-sm">Spot Award – Agent Studio</span>
+                  <span class="text-xs font-mono text-zinc-400">2024</span>
+                </div>
+                <div class="text-xs text-zinc-400">Responsive</div>
+                <p class="text-xs text-zinc-300 leading-relaxed">Awarded for outstanding technical contribution, innovation, and dedicated execution on the flagship multi-agent Agentic AI platform.</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-sm">Invited Hackathon Judge & Chief Guest</span>
+                  <span class="text-xs font-mono text-zinc-400">2025</span>
+                </div>
+                <div class="text-xs text-zinc-400">Collegiate Tech Events</div>
+                <p class="text-xs text-zinc-300 leading-relaxed">Invited as Chief Guest and expert technical judge for regional collegiate hackathons evaluating student AI and web engineering projects.</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-sm">AI Tooling Evangelist & KT Speaker</span>
+                  <span class="text-xs font-mono text-zinc-400">2024 – 2025</span>
+                </div>
+                <div class="text-xs text-zinc-400">Responsive</div>
+                <p class="text-xs text-zinc-300 leading-relaxed">Conducted highly rated internal knowledge transfer sessions driving adoption of Cursor and Codex, improving team productivity by ~120%.</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white text-sm">Excellence in Feature Delivery</span>
+                  <span class="text-xs font-mono text-zinc-400">2024</span>
+                </div>
+                <div class="text-xs text-zinc-400">Responsive</div>
+                <p class="text-xs text-zinc-300 leading-relaxed">Recognized by engineering management for dependable delivery of revenue-impacting Pricing & Packaging Salesforce integrations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECHNICAL PHILOSOPHY SECTION -->
+      <section id="philosophy" class="py-20 md:py-28 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+          <div class="max-w-2xl mb-16 space-y-2">
+            <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Technical Philosophy</div>
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Principles that govern system design.</h2>
+            <p class="text-zinc-400 text-sm">Architectural decisions rooted in real enterprise multi-agent workflows, full-stack rigor, and developer velocity.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition-colors space-y-4">
+              <div class="text-zinc-500 font-mono text-sm tracking-wider">01</div>
+              <h3 class="text-xl font-bold text-white tracking-tight">Agentic Tool Autonomy with Human-in-the-Loop</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Multi-agent architectures must dynamically select tools based on user intent, but gracefully ask clarifying follow-up questions when uncertainty or risk arises.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition-colors space-y-4">
+              <div class="text-zinc-500 font-mono text-sm tracking-wider">02</div>
+              <h3 class="text-xl font-bold text-white tracking-tight">Full-Stack Cohesion Across React, Java, and MongoDB</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">An application is only as resilient as its weakest integration layer. Type safety, structured REST contracts, and clean database schemas ensure deterministic user experiences.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition-colors space-y-4">
+              <div class="text-zinc-500 font-mono text-sm tracking-wider">03</div>
+              <h3 class="text-xl font-bold text-white tracking-tight">AI-Assisted Velocity without Quality Compromise</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Leveraging tools like Cursor and Codex empowers engineers to automate boilerplate, allowing focus to shift to higher-order architectural decisions and user value.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition-colors space-y-4">
+              <div class="text-zinc-500 font-mono text-sm tracking-wider">04</div>
+              <h3 class="text-xl font-bold text-white tracking-tight">Reusable Component Systems for Scale</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Building common UI components once and propagating them across onboarding, billing, and support reduces technical debt and guarantees unified customer UX.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS MATRIX SECTION -->
+      <section id="skills" class="py-20 md:py-28 border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div class="space-y-2">
+              <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Technical Competencies</div>
+              <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">Domain expertise & architecture stack.</h2>
+              <p class="text-zinc-400 text-sm max-w-xl">Technologies, tools, and runtimes leveraged daily across enterprise production systems at Responsive.</p>
+            </div>
+
+            <!-- Skill tabs -->
+            <div class="flex items-center gap-1 p-1 bg-zinc-900 border border-zinc-800 rounded-xl overflow-x-auto shrink-0" id="skillTabButtons">
+              <button onclick="selectSkillTab('ai')" class="skill-tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 text-zinc-950 transition-colors whitespace-nowrap shrink-0" data-id="ai">Agentic AI & LLMs</button>
+              <button onclick="selectSkillTab('fullstack')" class="skill-tab-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-id="fullstack">Full Stack & Backend</button>
+              <button onclick="selectSkillTab('frontend')" class="skill-tab-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-id="frontend">Frontend & UI</button>
+              <button onclick="selectSkillTab('tools')" class="skill-tab-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0" data-id="tools">Tools & AI Workflow</button>
+            </div>
+          </div>
+
+          <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-6">
+            <div class="border-b border-zinc-800 pb-4">
+              <h3 class="text-xl font-bold text-white" id="skillTabTitle">Agentic AI & LLMs</h3>
+              <p class="text-sm text-zinc-400 mt-1" id="skillTabDesc">Specialized in multi-agent orchestration, dynamic tool selection, and context-grounded prompting.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="skillGrid">
+              <!-- Dynamically populated via JS -->
+            </div>
+
+            <div class="pt-4 border-t border-zinc-800 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zinc-400 font-mono">
+              <span class="text-zinc-300 font-medium">Core Stack:</span>
+              <span>React.js</span><span class="text-zinc-600">·</span>
+              <span>Java (Spring Boot)</span><span class="text-zinc-600">·</span>
+              <span>MongoDB</span><span class="text-zinc-600">·</span>
+              <span>Google ADK</span><span class="text-zinc-600">·</span>
+              <span>GPT Models (5.2 mini, 5.4)</span><span class="text-zinc-600">·</span>
+              <span>Grok</span><span class="text-zinc-600">·</span>
+              <span>Cursor & Codex</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-zinc-950 text-zinc-400 text-xs border-t border-zinc-800/80">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 space-y-8">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="space-y-1">
+            <div class="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-sm bg-zinc-100 inline-block"></span>
+              <span>Subash Kannan</span>
+            </div>
+            <p class="text-zinc-500">
+              Full Stack Engineer | Agentic AI · React · Java · MongoDB · Responsive
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-6 text-zinc-400">
+            <a href="#work" class="hover:text-zinc-100 transition-colors">Work</a>
+            <a href="#experience" class="hover:text-zinc-100 transition-colors">Experience</a>
+            <a href="#philosophy" class="hover:text-zinc-100 transition-colors">Philosophy</a>
+            <a href="#skills" class="hover:text-zinc-100 transition-colors">Skills</a>
+            <a href="#lab" class="hover:text-zinc-100 transition-colors">Agentic Lab</a>
+            <button onclick="openResumeModal()" class="hover:text-zinc-100 transition-colors">Resume</button>
+            <button onclick="openContactDrawer()" class="hover:text-zinc-100 transition-colors">Contact</button>
+          </div>
+        </div>
+
+        <div class="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500">
+          <div>© 2026 Subash Kannan. All rights reserved.</div>
+          <div class="flex items-center gap-4">
+            <a href="https://linkedin.com/in/subash-kannan" target="_blank" rel="noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
+            <span aria-hidden="true">·</span>
+            <a href="mailto:subashkannan2023@gmail.com" class="hover:text-zinc-300 transition-colors">Email</a>
+            <span aria-hidden="true">·</span>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-zinc-300 transition-colors flex items-center gap-1">
+              <span>Back to Top</span>
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- RESUME MODAL -->
+    <div id="resumeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div class="relative w-full max-w-4xl bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl my-8 text-zinc-100 flex flex-col max-h-[92vh]">
+        <!-- Control Bar -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-950/90 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Official Resume</span>
+            <span aria-hidden="true" class="text-zinc-600">·</span>
+            <span class="text-xs text-zinc-400 font-mono">Subash Kannan</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="copyResumeMarkdown()" id="copyMdBtn" class="px-3 py-1.5 text-xs font-medium text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-lg transition-colors flex items-center gap-1.5">
+              <span>Copy Markdown</span>
+            </button>
+            <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-lg transition-colors flex items-center gap-1.5">
+              <span>Print / PDF</span>
+            </button>
+            <button onclick="closeResumeModal()" class="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors ml-1" aria-label="Close resume">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Document Body -->
+        <div class="p-6 sm:p-10 overflow-y-auto space-y-8 bg-zinc-950 font-sans text-sm">
+          <div class="border-b border-zinc-800 pb-6 space-y-2">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+              <h1 class="text-3xl font-bold tracking-tight text-white">Subash Kannan</h1>
+              <div class="text-xs font-mono text-zinc-400">Coimbatore, India</div>
+            </div>
+            <div class="text-base font-semibold text-zinc-200">Full Stack Engineer | Agentic AI | React • Java • MongoDB</div>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-400 font-mono pt-1">
+              <span>Email: <a href="mailto:subashkannan2023@gmail.com" class="text-zinc-300 hover:underline">subashkannan2023@gmail.com</a></span>
+              <span class="text-zinc-600">·</span>
+              <span>Phone: <a href="tel:+917539943786" class="text-zinc-300 hover:underline">+91 7539943786</a></span>
+              <span class="text-zinc-600">·</span>
+              <span>LinkedIn: <a href="https://linkedin.com/in/subash-kannan" target="_blank" class="text-zinc-300 hover:underline">linkedin.com/in/subash-kannan</a></span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-900 pb-1">SUMMARY</h2>
+            <p class="text-zinc-300 leading-relaxed text-sm">Full Stack Developer with <strong>3 years of experience</strong> building scalable web applications and AI driven platforms. Specialized in developing <strong>Agentic AI systems and multi-agent architectures using Google ADK</strong>, enabling dynamic tool invocation and intelligent workflow automation.</p>
+            <p class="text-zinc-300 leading-relaxed text-sm">Strong expertise in <strong>React.js, Java (Spring Boot), and MongoDB</strong> with hands-on experience in building customer-facing platforms, support systems, and revenue-impacting features. Proven track record of improving developer productivity using AI-assisted tools like Cursor and Codex. Recognized for technical excellence, innovation, and strong collaboration.</p>
+          </div>
+
+          <div class="space-y-3">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-900 pb-1">EXPERIENCE</h2>
+            <div class="space-y-2 text-xs">
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-850"><span class="font-semibold text-white text-sm">Software Engineer — Responsive</span><span class="font-mono text-zinc-400">2026 – Present</span></div>
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-850"><span class="font-semibold text-white text-sm">Associate Software Engineer — Responsive</span><span class="font-mono text-zinc-400">July 2024 – July 2026</span></div>
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-850"><span class="font-semibold text-white text-sm">Intern — Responsive</span><span class="font-mono text-zinc-400">July 2023 – July 2024</span></div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-900 pb-1">KEY PROJECTS (RESPONSIVE · COIMBATORE, INDIA · 3 YEARS)</h2>
+
+            <!-- Project 1 -->
+            <div class="p-5 rounded-xl bg-zinc-900/40 border border-zinc-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h3 class="font-bold text-white text-base">#1 Project: Agentic AI Platform (Multi-Agent System)</h3>
+                <span class="text-xs text-zinc-400 font-mono">Spot Award Winner</span>
+              </div>
+              <div class="text-xs font-mono text-zinc-400"><strong class="text-zinc-300">Technologies:</strong> React.js, Google ADK, GPT Models (5.2 mini, 5.4), Grok.</div>
+              <p class="text-xs text-zinc-300 leading-relaxed">Worked on building an advanced Agentic AI platform that enables users to create custom agents and interact via a ChatGPT-like interface.</p>
+              <ul class="space-y-1.5 pl-4 list-disc text-zinc-300 text-xs">
+                <li>Designed and implemented a <strong>multi-agent architecture where Google ADK dynamically decides which agent/tool to invoke</strong> based on user queries</li>
+                <li>Built intelligent workflows for file summarization, contextual responses, and task automation</li>
+                <li>Enabled dynamic tool integration allowing agents to handle diverse user requirements</li>
+                <li>Implemented fallback mechanisms where the system asks follow-up questions to better understand user intent</li>
+                <li>Experimented and validated responses using multiple LLMs including GPT and Grok</li>
+                <li>Contributed to improving overall system intelligence and response accuracy via PROMPT optimization.</li>
+              </ul>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="p-5 rounded-xl bg-zinc-900/40 border border-zinc-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h3 class="font-bold text-white text-base">#2 Project: Support Portal (Customer Management System)</h3>
+                <span class="text-xs text-zinc-400 font-mono">Full-Stack Application</span>
+              </div>
+              <div class="text-xs font-mono text-zinc-400"><strong class="text-zinc-300">Technologies:</strong> React.js, Java, MongoDB.</div>
+              <p class="text-xs text-zinc-300 leading-relaxed">Contributed to both frontend and backend development of key modules, gaining hands-on experience with full-stack application architecture.</p>
+              <ul class="space-y-1.5 pl-4 list-disc text-zinc-300 text-xs">
+                <li>Built end-to-end features for customer data management and issue tracking</li>
+                <li>Designed REST APIs and integrated frontend with backend services</li>
+                <li>Ensured smooth user experience with responsive UI using React.js.</li>
+              </ul>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="p-5 rounded-xl bg-zinc-900/40 border border-zinc-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <h3 class="font-bold text-white text-base">#3 Project: Pricing & Packaging System</h3>
+                <span class="text-xs text-zinc-400 font-mono">Revenue Critical</span>
+              </div>
+              <div class="text-xs font-mono text-zinc-400"><strong class="text-zinc-300">Technologies:</strong> React.js, Java, MongoDB, Salesforce integration.</div>
+              <p class="text-xs text-zinc-300 leading-relaxed">Worked on a business-critical module directly contributing to company revenue.</p>
+              <ul class="space-y-1.5 pl-4 list-disc text-zinc-300 text-xs">
+                <li>Developed pricing and packaging features used in customer onboarding and sales flows</li>
+                <li>Implemented UI components as a common component so that it can be reused across the platform.</li>
+                <li>Contributed to optimizing business logic impacting revenue generation.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-900 pb-1">ADDITIONAL CONTRIBUTIONS</h2>
+            <ul class="space-y-1.5 pl-4 list-disc text-zinc-300 text-xs">
+              <li>Increased team productivity by <strong>~120%</strong> using AI tools like Cursor, Codex, and ChatGPT</li>
+              <li>Conducted Knowledge Transfer (KT) sessions on effective usage of AI-assisted development tools</li>
+              <li>Actively used Jira for task tracking and Agile sprint workflows</li>
+              <li>Collaborated via Slack and worked closely with design teams using Figma.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-2">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-900 pb-1">EDUCATION</h2>
+            <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800 space-y-1">
+              <div class="flex justify-between font-bold text-white text-sm">
+                <span>Sri Shakthi Institute of Engineering and Technology</span>
+                <span class="text-xs text-zinc-400 font-mono">July 2020 – May 2024</span>
+              </div>
+              <div class="text-xs text-zinc-400">Coimbatore, Tamil Nadu</div>
+              <div class="text-xs font-semibold text-zinc-200 pt-1">Bachelor's degree (B.E) | CGPA: 9.02</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between px-6 py-4 border-t border-zinc-800 bg-zinc-950/90 shrink-0">
+          <button onclick="closeResumeModal(); openContactDrawer()" class="text-xs text-zinc-400 hover:text-white transition-colors">Connect with Subash Kannan</button>
+          <button onclick="closeResumeModal()" class="px-4 py-2 text-xs font-medium text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg transition-colors">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT DRAWER -->
+    <div id="contactDrawer" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div class="relative w-full max-w-xl bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl text-zinc-100 my-8">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-950/80">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Get in Touch with Subash</span>
+            <span class="text-zinc-600">·</span>
+            <span class="text-xs text-zinc-400 font-mono">Coimbatore, India</span>
+          </div>
+          <button onclick="closeContactDrawer()" class="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6" id="contactContent">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight text-white">Let's discuss Full-Stack & Agentic AI.</h2>
+            <p class="text-sm text-zinc-400 mt-1">Open to full stack engineering roles, multi-agent AI architecture discussions, and hackathon judging.</p>
+          </div>
+
+          <div class="space-y-2">
+            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between text-xs">
+              <span class="text-zinc-300 font-mono">subashkannan2023@gmail.com</span>
+              <button onclick="copyToClipboard('subashkannan2023@gmail.com', this)" class="px-2.5 py-1 text-[11px] font-medium text-zinc-300 hover:text-white border border-zinc-800 rounded-md">Copy Email</button>
+            </div>
+            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between text-xs">
+              <span class="text-zinc-300 font-mono">+91 7539943786</span>
+              <button onclick="copyToClipboard('+91 7539943786', this)" class="px-2.5 py-1 text-[11px] font-medium text-zinc-300 hover:text-white border border-zinc-800 rounded-md">Copy Phone</button>
+            </div>
+            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between text-xs">
+              <span class="text-zinc-300 font-mono">linkedin.com/in/subash-kannan</span>
+              <a href="https://linkedin.com/in/subash-kannan" target="_blank" class="px-2.5 py-1 text-[11px] font-medium text-zinc-300 hover:text-white border border-zinc-800 rounded-md">Open</a>
+            </div>
+          </div>
+
+          <form onsubmit="handleContactSubmit(event)" class="space-y-4 text-sm" id="contactForm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label class="text-xs font-medium text-zinc-300">Your Name</label>
+                <input type="text" id="contactName" required placeholder="Name" class="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-zinc-100 text-sm">
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-xs font-medium text-zinc-300">Your Email</label>
+                <input type="email" id="contactEmail" required placeholder="you@company.com" class="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-zinc-100 text-sm">
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-zinc-300">Inquiry Topic</label>
+              <select id="contactTopic" class="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-zinc-100 text-sm">
+                <option value="Agentic AI / Full Stack Opportunity">Agentic AI & Full Stack Opportunity</option>
+                <option value="Technical Interview / Role">Technical Interview / Senior Role</option>
+                <option value="Hackathon Judging / Speaking">Hackathon Judging / Speaker Invitation</option>
+                <option value="General Technical Inquiry">General Technical Discussion</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-zinc-300">Message</label>
+              <textarea id="contactMessage" required rows="4" placeholder="Tell me about your team or project..." class="w-full px-3.5 py-2 rounded-lg bg-zinc-950 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-zinc-100 text-sm resize-none"></textarea>
+            </div>
+
+            <div class="pt-2 flex items-center justify-end gap-3">
+              <button type="button" onclick="closeContactDrawer()" class="px-4 py-2 text-xs font-medium text-zinc-400 hover:text-white">Cancel</button>
+              <button type="submit" id="submitBtn" class="px-5 py-2 text-xs font-semibold text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT DETAIL MODAL -->
+    <div id="projectModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div class="relative w-full max-w-3xl bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl my-8 text-zinc-100">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-950/60">
+          <div class="flex items-center gap-2 text-xs text-zinc-400" id="modalCategoryYear">
+            <span>Agentic AI & LLMs</span><span>·</span><span>2024 – 2026</span>
+          </div>
+          <button onclick="closeProjectModal()" class="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <div class="relative w-full aspect-[16/9] bg-zinc-950 border-b border-zinc-800 overflow-hidden">
+          <img id="modalImg" src="./images/project_ai_platform.jpg" alt="Project preview" class="w-full h-full object-cover object-top">
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-8">
+          <div>
+            <h2 id="modalTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Project Title</h2>
+            <p id="modalSubtitle" class="text-base text-zinc-400 mt-1">Subtitle</p>
+            <p id="modalSummary" class="text-sm text-zinc-300 mt-4 leading-relaxed">Summary</p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-zinc-950 border border-zinc-800" id="modalMetrics"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-400">The Problem</h3>
+              <p id="modalProblem" class="text-sm text-zinc-300 leading-relaxed"></p>
+            </div>
+            <div class="space-y-2">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-400">The Solution</h3>
+              <p id="modalSolution" class="text-sm text-zinc-300 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Architectural Decisions</h3>
+            <div class="space-y-2" id="modalDecisions"></div>
+          </div>
+
+          <div class="pt-4 border-t border-zinc-800">
+            <div class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Technologies Used</div>
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-300 font-mono" id="modalStack"></div>
+          </div>
+
+          <div class="flex items-center justify-end pt-4 border-t border-zinc-800">
+            <button onclick="closeProjectModal()" class="px-4 py-2 text-xs font-medium text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg transition-colors">Close Window</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC (Pure browser JS, Zero dependencies, 100% Static & GitHub Pages Compatible) -->
+    <script>
+      // 1. Projects Data
+      const projectsData = {
+        'agentic-ai': {
+          title: 'Agentic AI Platform (Multi-Agent System)',
+          subtitle: 'Dynamic Multi-Agent System & Google ADK Tool Orchestration',
+          categoryLabel: 'Agentic AI & LLMs',
+          year: '2024 – 2026',
+          image: './images/project_ai_platform.jpg',
+          summary: 'Advanced Agentic AI platform built at Responsive enabling enterprise users to create custom agents, trigger intelligent automated workflows, and interact via an intuitive ChatGPT-like interface.',
+          metrics: [
+            { label: 'Multi-Agent', value: 'Google ADK' },
+            { label: 'LLM Engines', value: 'GPT & Grok' },
+            { label: 'Recognition', value: 'Spot Award' }
+          ],
+          problem: 'Enterprise users required an intelligent conversational interface capable of autonomously resolving complex tasks, handling file summarization, and dynamically executing internal tool calls without manual workflow friction.',
+          solution: 'Designed and implemented a modular multi-agent architecture using Google ADK where an orchestrator agent dynamically decides which specialist agent or tool to invoke based on user intent and context.',
+          decisions: [
+            'Integrated dynamic tool selection powered by Google ADK to route queries to dedicated summarization, task automation, and data retrieval agents.',
+            'Engineered an intelligent fallback clarification mechanism where the agent asks targeted follow-up questions when user intent has ambiguity.',
+            'Experimented with and validated responses across multiple LLM families including GPT Models (5.2 mini, 5.4) and Grok for optimal speed and accuracy.',
+            'Applied structured prompt optimization and retrieval-augmented context grounding to elevate response accuracy and zero hallucination.'
+          ],
+          techStack: ['React.js', 'Google ADK', 'GPT-5.2 mini', 'GPT-5.4', 'Grok', 'RAG', 'TypeScript']
+        },
+        'pricing-packaging': {
+          title: 'Pricing & Packaging System',
+          subtitle: 'Business-Critical Revenue Engine & Salesforce Integration',
+          categoryLabel: 'Full Stack & Revenue',
+          year: '2024',
+          image: './images/project_cloud_stream.jpg',
+          summary: 'Business-critical pricing, subscription packaging, and customer onboarding system directly impacting Responsive revenue generation and enterprise checkout flows.',
+          metrics: [
+            { label: 'Impact', value: 'Revenue Core' },
+            { label: 'Architecture', value: 'Full Stack' },
+            { label: 'Integration', value: 'Salesforce' }
+          ],
+          problem: 'Legacy sales onboarding flows lacked dynamic package customization and reusable UI components, slowing down enterprise closing cycles.',
+          solution: 'Developed full-stack pricing and packaging features with seamless Salesforce integration and engineered a reusable common component library in React.js.',
+          decisions: [
+            'Implemented modular, reusable UI components adopted across customer onboarding and sales funnels.',
+            'Optimized core business tier calculation logic in Java (Spring Boot) and MongoDB for instantaneous tiered quote generation.',
+            'Engineered reliable Salesforce synchronization endpoints maintaining consistency across billing and CRM states.'
+          ],
+          techStack: ['React.js', 'Java (Spring Boot)', 'MongoDB', 'Salesforce API', 'RESTful Services', 'Figma']
+        },
+        'support-portal': {
+          title: 'Customer Support Portal & Management System',
+          subtitle: 'Enterprise Issue Tracking & Customer Data Management',
+          categoryLabel: 'Full Stack Web Platform',
+          year: '2023 – 2024',
+          image: './images/project_design_system.jpg',
+          summary: 'End-to-end customer support portal designed to streamline enterprise customer data management, ticket escalation, and issue resolution tracking.',
+          metrics: [
+            { label: 'Stack', value: 'React + Java' },
+            { label: 'Database', value: 'MongoDB' },
+            { label: 'Architecture', value: 'REST API' }
+          ],
+          problem: 'Support teams faced fragmented ticketing tools and slow customer data lookups, increasing turnaround time for high-priority enterprise issues.',
+          solution: 'Built full-stack features unifying customer data management and issue tracking with high-performance REST APIs and a responsive React UI.',
+          decisions: [
+            'Designed performant RESTful APIs in Java connecting seamlessly to MongoDB for rapid read/write of customer states.',
+            'Created a responsive, accessible React interface with real-time status indicators and search filters.',
+            'Collaborated closely with design teams in Figma to ensure frictionless UX for enterprise support specialists.'
+          ],
+          techStack: ['React.js', 'Java', 'MongoDB', 'REST APIs', 'Mongo Compass', 'Jira']
+        },
+        'ai-productivity': {
+          title: 'AI-Assisted Developer Productivity Suite',
+          subtitle: 'Organization-Wide AI Tooling Adoption & Knowledge Transfer',
+          categoryLabel: 'Engineering Leadership',
+          year: '2024 – 2026',
+          image: './images/project_ai_platform.jpg',
+          summary: 'Spearheaded team-wide adoption of cutting-edge AI coding tools (Cursor, Codex, ChatGPT), driving an estimated ~120% increase in developer delivery speed.',
+          metrics: [
+            { label: 'Velocity Gain', value: '~120%' },
+            { label: 'Tooling', value: 'Cursor & Codex' },
+            { label: 'Role', value: 'KT Lead' }
+          ],
+          problem: 'Developers spent extensive hours on repetitive boilerplate generation, refactoring, and test fixture setup.',
+          solution: 'Formulated internal AI development standards, conducted cross-team Knowledge Transfer sessions, and implemented agentic prompt playbooks.',
+          decisions: [
+            'Delivered hands-on workshops on effective prompting, cursor-rules configuration, and automated test synthesis.',
+            'Standardized best practices for context steering and secure handling of proprietary codebases.',
+            'Recognized across the organization for fostering innovation and accelerating feature release cycles.'
+          ],
+          techStack: ['Cursor', 'Codex', 'ChatGPT', 'Prompt Engineering', 'VS Code', 'Agile / Jira']
+        }
+      };
+
+      // 2. Project Filtering
+      function filterProjects(cat) {
+        const cards = document.querySelectorAll('.project-card');
+        cards.forEach(card => {
+          if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        document.querySelectorAll('.project-filter-btn').forEach(btn => {
+          if (btn.getAttribute('data-category') === cat) {
+            btn.className = 'project-filter-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 text-zinc-950 transition-colors whitespace-nowrap shrink-0';
+          } else {
+            btn.className = 'project-filter-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0';
+          }
+        });
+      }
+
+      // 3. Project Detail Modal
+      function openProjectModal(id) {
+        const p = projectsData[id];
+        if (!p) return;
+        document.getElementById('modalCategoryYear').innerHTML = `<span>${p.categoryLabel}</span><span>·</span><span>${p.year}</span>`;
+        document.getElementById('modalTitle').textContent = p.title;
+        document.getElementById('modalSubtitle').textContent = p.subtitle;
+        document.getElementById('modalSummary').textContent = p.summary;
+        document.getElementById('modalImg').src = p.image;
+        document.getElementById('modalProblem').textContent = p.problem;
+        document.getElementById('modalSolution').textContent = p.solution;
+
+        // Metrics
+        let metricsHtml = '';
+        p.metrics.forEach(m => {
+          metricsHtml += `<div><div class="text-xl font-bold text-white font-mono">${m.value}</div><div class="text-xs text-zinc-400">${m.label}</div></div>`;
+        });
+        document.getElementById('modalMetrics').innerHTML = metricsHtml;
+
+        // Decisions
+        let decHtml = '';
+        p.decisions.forEach((d, idx) => {
+          decHtml += `<div class="flex items-start gap-2.5 text-sm text-zinc-300"><span class="text-zinc-500 font-mono text-xs mt-0.5">0${idx+1}.</span><p>${d}</p></div>`;
+        });
+        document.getElementById('modalDecisions').innerHTML = decHtml;
+
+        // Stack
+        let stackHtml = '';
+        p.techStack.forEach((t, idx) => {
+          stackHtml += `<span>${t}</span>${idx < p.techStack.length - 1 ? '<span class="text-zinc-600">·</span>' : ''}`;
+        });
+        document.getElementById('modalStack').innerHTML = stackHtml;
+
+        document.getElementById('projectModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProjectModal() {
+        document.getElementById('projectModal').classList.add('hidden');
+        document.body.style.overflow = 'unset';
+      }
+
+      // 4. Interactive Google ADK Simulator Logic
+      const simScenarios = {
+        'summarize': {
+          prompt: 'Summarize the 45-page SOC2 compliance RFP PDF and extract high-risk clauses.',
+          agent: 'File Summarization Specialist',
+          tool: 'Document Parser & Reranker',
+          baseConf: 0.94,
+          ambiguous: false
+        },
+        'salesforce': {
+          prompt: 'Check custom tier pricing for Acme Corp and sync updated seats to Salesforce.',
+          agent: 'Revenue & Tool Invocation Agent',
+          tool: 'Salesforce API + MongoDB Pricing',
+          baseConf: 0.91,
+          ambiguous: false
+        },
+        'ambiguous': {
+          prompt: 'Need an update on the latest proposal changes.',
+          agent: 'Fallback Clarification Agent',
+          tool: 'Follow-Up Intent Clarifier Prompt',
+          baseConf: 0.62,
+          ambiguous: true,
+          question: 'Which proposal would you like an update on: Acme Corp Q3 ($120k) or Globex SaaS ($85k)?'
+        },
+        'automation': {
+          prompt: 'Generate a ChatGPT-style contextual draft response using verified past knowledge base files.',
+          agent: 'Contextual Response & Knowledge Agent',
+          tool: 'RAG Retriever + Grok Validator',
+          baseConf: 0.88,
+          ambiguous: false
+        }
+      };
+
+      let currentSim = {
+        scenario: 'summarize',
+        model: 'gpt54',
+        threshold: 0.80,
+        promptOpt: true
+      };
+
+      function renderSimulator() {
+        const s = simScenarios[currentSim.scenario];
+        const isGrok = currentSim.model === 'grok';
+        const isMini = currentSim.model === 'gpt52mini';
+
+        let lat = isGrok ? 310 : isMini ? 160 : 280;
+        if (currentSim.promptOpt) lat -= 65;
+
+        let conf = s.baseConf;
+        if (currentSim.promptOpt) conf = Math.min(0.99, conf + 0.05);
+
+        const triggersFallback = conf < currentSim.threshold || s.ambiguous;
+
+        document.getElementById('simLatency').innerHTML = `${Math.max(95, lat)} <span class="text-xs font-normal text-zinc-500">ms</span>`;
+        document.getElementById('simConfidence').textContent = `${(conf * 100).toFixed(0)}%`;
+        document.getElementById('simDecision').textContent = triggersFallback ? 'Clarification' : 'Direct Tool';
+        document.getElementById('simDecisionDetail').textContent = triggersFallback ? 'Ambiguity detected' : 'Automated action';
+        document.getElementById('simTokens').textContent = currentSim.promptOpt ? '+38%' : 'Baseline';
+
+        document.getElementById('simPrompt').textContent = `"${s.prompt}"`;
+        document.getElementById('step1Score').textContent = `Score: ${(conf * 100).toFixed(0)}%`;
+        document.getElementById('step2Agent').textContent = s.agent;
+        document.getElementById('step2Tool').textContent = s.tool;
+        document.getElementById('step3Output').textContent = triggersFallback ? 'Follow-Up Question' : 'Contextual Response';
+
+        const notice = document.getElementById('fallbackNotice');
+        if (triggersFallback) {
+          notice.classList.remove('hidden');
+          document.getElementById('fallbackQuestion').textContent = `"${s.question || 'Could you please specify which project or document context you would like to proceed with?'}"`;
+        } else {
+          notice.classList.add('hidden');
+        }
+      }
+
+      function selectScenario(id) {
+        currentSim.scenario = id;
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+          if (btn.getAttribute('data-id') === id) {
+            btn.className = 'scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-800 border-zinc-600 text-white font-medium';
+          } else {
+            btn.className = 'scenario-btn w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between bg-zinc-950/80 border-zinc-850 text-zinc-400 hover:text-zinc-200';
+          }
+        });
+        renderSimulator();
+      }
+
+      function selectModel(id) {
+        currentSim.model = id;
+        document.querySelectorAll('.model-btn').forEach(btn => {
+          if (btn.getAttribute('data-id') === id) {
+            btn.className = 'model-btn py-2 px-2 text-xs font-semibold rounded-lg border bg-zinc-100 text-zinc-950 border-zinc-100';
+          } else {
+            btn.className = 'model-btn py-2 px-2 text-xs font-medium rounded-lg border bg-zinc-950 text-zinc-400 border-zinc-800';
+          }
+        });
+        renderSimulator();
+      }
+
+      function updateConfidence(val) {
+        currentSim.threshold = Number(val) / 100;
+        document.getElementById('thresholdValue').textContent = `${val}%`;
+        renderSimulator();
+      }
+
+      function togglePromptOpt() {
+        currentSim.promptOpt = !currentSim.promptOpt;
+        const btn = document.getElementById('promptOptBtn');
+        const knob = document.getElementById('promptOptKnob');
+        if (currentSim.promptOpt) {
+          btn.className = 'w-11 h-6 rounded-full transition-colors relative bg-zinc-100';
+          knob.className = 'w-4 h-4 rounded-full transition-transform bg-zinc-950 translate-x-6';
+        } else {
+          btn.className = 'w-11 h-6 rounded-full transition-colors relative bg-zinc-800';
+          knob.className = 'w-4 h-4 rounded-full transition-transform bg-zinc-400 translate-x-1';
+        }
+        renderSimulator();
+      }
+
+      function resetSimulator() {
+        currentSim = { scenario: 'summarize', model: 'gpt54', threshold: 0.80, promptOpt: true };
+        document.getElementById('thresholdValue').textContent = '80%';
+        selectScenario('summarize');
+        selectModel('gpt54');
+        togglePromptOpt();
+        if (!currentSim.promptOpt) togglePromptOpt();
+      }
+
+      // 5. Skills Matrix Tabs
+      const skillsData = {
+        ai: {
+          title: 'Agentic AI & LLMs',
+          desc: 'Specialized in multi-agent orchestration, dynamic tool selection, and context-grounded prompting.',
+          items: [
+            { name: 'Agentic AI Systems', context: 'Multi-agent orchestration, dynamic tool invocation, fallback loops', level: 'Expert' },
+            { name: 'Google ADK', context: 'Dynamic agent routing, tool declaration, stateful workflows', level: 'Expert' },
+            { name: 'LLM Models & Evaluation', context: 'GPT-5.2 mini, GPT-5.4, Grok, model benchmarking', level: 'Expert' },
+            { name: 'RAG & Document Intelligence', context: 'File summarization, contextual retrieval, semantic grounding', level: 'Advanced' },
+            { name: 'Prompt Optimization', context: 'Few-shot engineering, guardrails, follow-up clarification prompts', level: 'Expert' }
+          ]
+        },
+        fullstack: {
+          title: 'Full Stack & Backend',
+          desc: 'Robust server architecture, enterprise API integration, and document databases.',
+          items: [
+            { name: 'Java (Spring Boot)', context: 'Enterprise microservices, REST APIs, business tier logic', level: 'Expert' },
+            { name: 'MongoDB', context: 'Document modeling, indexing, aggregation pipelines, Mongo Compass', level: 'Expert' },
+            { name: 'Salesforce Integration', context: 'CRM synchronization, customer onboarding, billing events', level: 'Advanced' },
+            { name: 'RESTful API Architecture', context: 'Contract-first design, Postman automation, error boundaries', level: 'Expert' }
+          ]
+        },
+        frontend: {
+          title: 'Frontend & UI Architecture',
+          desc: 'Modern component-driven web interfaces, state management, and design systems.',
+          items: [
+            { name: 'React.js & Hooks', context: 'Custom hooks, state machines, performance profiling, responsive UI', level: 'Expert' },
+            { name: 'TypeScript & JavaScript', context: 'Strict typing, modern ESNext, interface contracts', level: 'Advanced' },
+            { name: 'Reusable Common Components', context: 'Design token alignment, modular component architecture', level: 'Expert' },
+            { name: 'Figma to Code', context: 'Design token integration, pixel-perfect layout implementation', level: 'Expert' }
+          ]
+        },
+        tools: {
+          title: 'Tools & AI-Assisted Workflow',
+          desc: 'Modern developer toolchains, AI productivity accelerators, and team collaboration.',
+          items: [
+            { name: 'AI Coding Tools', context: 'Cursor, Codex, ChatGPT prompt workflows (+120% velocity)', level: 'Expert' },
+            { name: 'IDEs & Development', context: 'VS Code, IntelliJ IDEA, Eclipse, Postman', level: 'Expert' },
+            { name: 'Version Control & Agile', context: 'Git, GitHub, SourceTree, Jira, Agile sprint ceremonies', level: 'Expert' },
+            { name: 'Knowledge Transfer', context: 'Leading tech sessions, developer documentation, mentorship', level: 'Advanced' }
+          ]
+        }
+      };
+
+      function selectSkillTab(id) {
+        const cat = skillsData[id];
+        if (!cat) return;
+        document.getElementById('skillTabTitle').textContent = cat.title;
+        document.getElementById('skillTabDesc').textContent = cat.desc;
+
+        let html = '';
+        cat.items.forEach(item => {
+          html += `<div class="p-4 rounded-xl bg-zinc-950 border border-zinc-850 hover:border-zinc-700 transition-colors flex flex-col justify-between space-y-2">
+            <div class="flex items-center justify-between"><span class="font-semibold text-white text-sm">${item.name}</span><span class="text-xs font-mono text-zinc-400">${item.level}</span></div>
+            <p class="text-xs text-zinc-400 font-mono">${item.context}</p>
+          </div>`;
+        });
+        document.getElementById('skillGrid').innerHTML = html;
+
+        document.querySelectorAll('.skill-tab-btn').forEach(btn => {
+          if (btn.getAttribute('data-id') === id) {
+            btn.className = 'skill-tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 text-zinc-950 transition-colors whitespace-nowrap shrink-0';
+          } else {
+            btn.className = 'skill-tab-btn px-3 py-1.5 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap shrink-0';
+          }
+        });
+      }
+
+      // 6. Resume Modal Actions
+      function openResumeModal() {
+        document.getElementById('resumeModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeResumeModal() {
+        document.getElementById('resumeModal').classList.add('hidden');
+        document.body.style.overflow = 'unset';
+      }
+      function copyResumeMarkdown() {
+        const md = `# Subash Kannan\\n**Full Stack Engineer | Agentic AI | React • Java • MongoDB**\\nEmail: subashkannan2023@gmail.com | Phone: +91 7539943786\\nLinkedIn: linkedin.com/in/subash-kannan | Location: Coimbatore, India.\\n\\n## SUMMARY\\nFull Stack Developer with 3 years of experience building scalable web applications and AI driven platforms at Responsive. Specialized in developing Agentic AI systems and multi-agent architectures using Google ADK.\\n\\n## EXPERIENCE\\n- Software Engineer — Responsive (2026 – Present)\\n- Associate Software Engineer — Responsive (July 2024 – July 2026)\\n- Intern — Responsive (July 2023 – July 2024)\\n\\n## EDUCATION\\nSri Shakthi Institute of Engineering and Technology (B.E) | CGPA: 9.02`;
+        navigator.clipboard.writeText(md);
+        const btn = document.getElementById('copyMdBtn');
+        btn.innerHTML = '<span class="text-emerald-400">Copied!</span>';
+        setTimeout(() => { btn.innerHTML = '<span>Copy Markdown</span>'; }, 2000);
+      }
+
+      // 7. Contact Drawer
+      function openContactDrawer() {
+        document.getElementById('contactDrawer').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeContactDrawer() {
+        document.getElementById('contactDrawer').classList.add('hidden');
+        document.body.style.overflow = 'unset';
+      }
+      function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text);
+        const orig = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerText = orig; }, 2000);
+      }
+      function handleContactSubmit(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = 'Dispatching...';
+        btn.disabled = true;
+        setTimeout(() => {
+          document.getElementById('contactContent').innerHTML = `
+            <div class="py-8 text-center space-y-4">
+              <div class="w-12 h-12 rounded-full bg-zinc-800 text-emerald-400 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
+              <h3 class="text-xl font-bold text-white">Message Dispatched</h3>
+              <p class="text-sm text-zinc-400">Thank you! Your inquiry has been logged. Subash will reply to your email shortly.</p>
+              <button onclick="closeContactDrawer()" class="px-5 py-2 text-xs font-semibold text-zinc-950 bg-zinc-100 hover:bg-white rounded-lg mt-4">Done</button>
+            </div>`;
+        }, 600);
+      }
+
+      // 8. Mobile Menu
+      function toggleMobileMenu() {
+        const m = document.getElementById('mobileMenu');
+        m.classList.toggle('hidden');
+      }
+
+      // Initialize
+      window.addEventListener('DOMContentLoaded', () => {
+        selectSkillTab('ai');
+        renderSimulator();
+      });
+
+      // Escape key listener for modals
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeProjectModal();
+          closeResumeModal();
+          closeContactDrawer();
+        }
+      });
+    </script>
   </body>
 </html>
-
